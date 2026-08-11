@@ -1,0 +1,8 @@
+map:
+  width: 10.0
+  height: 2.5
+points:
+  start: [0.5, 0.5]
+  task_publish: [4.5, 1.8]
+  channel_entrance: [5.0, 1.25]
+  parking: [0.5, 0.5]

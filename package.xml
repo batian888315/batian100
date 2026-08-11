@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>competition_control</name>
+  <version>1.0.0</version>
+  <description>Competition control package for OriginCar Pro with N10 radar, QR/vision recognition, voice</description>
+  <maintainer email="user@example.com">User</maintainer>
+  <license>Apache-2.0</license>
+
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>cv_bridge</depend>
+
+  <exec_depend>origincar_base</exec_depend>
+  <exec_depend>ydlidar_ros2_driver</exec_depend>
+  <exec_depend>python3-pyzbar</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>python3-requests</exec_depend>
+  <exec_depend>python3-pyttsx3</exec_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
