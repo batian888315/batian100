@@ -1,54 +1,18 @@
-工作空间
-
-cd \~/competition\_ws
-
-source install/setup.bash
-
-
-
-启动底盘
-
-source \~/competition\_ws/install/setup.bash
-
-ros2 launch origincar\_base origincar\_bringup.launch.py
+赛队名称：罐罐队
+学校名称：深圳大学
+队长姓名或 ID：谭栩韵
+RDK 型号：RDK X5
+参赛模式：全自动模式
 
 
+1. 赛道感知与循迹控制
+赛道图像经 ResNet18 推理后得到赛道中心点。racing_control 根据中心点相对图像中心的横向偏差计算角速度，并结合前向速度参数发布 /cmd_vel，实现连续循迹控制。
 
-启动雷达
+2. 在线定位与环境建图
+系统使用激光雷达、IMU 和里程计信息。lidar_obstacle 对扫描数据进行运动去畸变，racing_localization 启动在线 SLAM，并输出平滑后的 /localized_odom，为规划与控制提供稳定的位姿依据。
 
-source \~/competition\_ws/install/setup.bash
+3. 路径规划与绕行
+mypath_planner_c 直接使用在线 SLAM 输出的占用栅格地图进行障碍膨胀、可行性检查和 A* 搜索。当参考路径受阻时，系统生成局部绕行路径并交由 vcontrol 跟踪。
 
-ros2 run ydlidar\_ros2\_driver ydlidar\_ros2\_driver\_node --ros-args -p port:=/dev/ttyUSB0 -p frame\_id:=laser\_frame -p lidar\_type:=1
-
-
-
-启动摄像头
-
-source \~/competition\_ws/install/setup.bash
-
-ros2 run usb\_cam usb\_cam\_node --ros-args -p image\_width:=640 -p image\_height:=480
-
-
-
-启动二维码
-
-source \~/competition\_ws/install/setup.bash
-
-ros2 run competition\_control qr\_detector.py
-
-
-
-启动图文
-
-source \~/competition\_ws/install/setup.bash
-
-ros2 run competition\_control vision\_to\_text.py
-
-
-
-启动
-
-source \~/competition\_ws/install/setup.bash
-
-ros2 run competition\_control competition\_state\_machine.py
-
+4. 安全控制与人机协同
+mycommand_limiter 在车辆人工使能且定位状态健康时才允许速度指令通过；定位异常、心跳超时或手动锁止时输出零速度。二维码识别、图像描述和语音播报模块用于任务交互与状态反馈。
